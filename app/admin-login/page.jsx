@@ -10,15 +10,17 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Replace with real authentication logic
-    if (email === 'rao@rao.com' && password === '1234') {
+    const res = await fetch('/api/admin-login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (res.ok) {
       toast.success('Login Successful!');
-      setTimeout(() => {
-        router.push('/admin/dashboard');
-      }, 1500);
+      setTimeout(() => router.push('/dashboard'), 1500);
     } else {
       toast.error('Invalid credentials');
     }
